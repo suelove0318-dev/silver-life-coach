@@ -1,0 +1,385 @@
+import React, { useState, useEffect } from 'react';
+import { Heart, Smartphone, Users, CheckCircle, MapPin, Award, ArrowRight, Menu, X } from 'lucide-react';
+
+export default function SilverCoachLanding() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
+
+  // 나눔스퀘어 폰트 로드
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.href = 'https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+    
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="min-h-screen" style={{ fontFamily: "'NanumSquare', sans-serif", backgroundColor: '#F0F8F5' }}>
+      {/* Top Navigation */}
+      <nav className="fixed top-0 w-full shadow-md z-50" style={{ backgroundColor: '#F0F8F5' }}>
+        <div className="max-w-6xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="text-2xl font-bold" style={{ color: '#0077B6' }}>
+              실버 디지털 라이프 코치
+            </div>
+            
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-8 text-lg">
+              <button onClick={() => scrollToSection('problem')} className="hover:font-bold transition-all" style={{ color: '#0077B6' }}>문제</button>
+              <button onClick={() => scrollToSection('solution')} className="hover:font-bold transition-all" style={{ color: '#0077B6' }}>솔루션</button>
+              <button onClick={() => scrollToSection('benefits')} className="hover:font-bold transition-all" style={{ color: '#0077B6' }}>혜택</button>
+              <button onClick={() => scrollToSection('trust')} className="hover:font-bold transition-all" style={{ color: '#0077B6' }}>신뢰</button>
+              <button onClick={() => scrollToSection('pricing')} className="hover:font-bold transition-all" style={{ color: '#0077B6' }}>가격</button>
+              <button onClick={() => scrollToSection('cta')} className="hover:font-bold transition-all" style={{ color: '#0077B6' }}>신청</button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              style={{ color: '#0077B6' }}
+            >
+              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 space-y-3 text-lg">
+              <button onClick={() => scrollToSection('problem')} className="block w-full text-left py-2" style={{ color: '#0077B6' }}>문제</button>
+              <button onClick={() => scrollToSection('solution')} className="block w-full text-left py-2" style={{ color: '#0077B6' }}>솔루션</button>
+              <button onClick={() => scrollToSection('benefits')} className="block w-full text-left py-2" style={{ color: '#0077B6' }}>혜택</button>
+              <button onClick={() => scrollToSection('trust')} className="block w-full text-left py-2" style={{ color: '#0077B6' }}>신뢰</button>
+              <button onClick={() => scrollToSection('pricing')} className="block w-full text-left py-2" style={{ color: '#0077B6' }}>가격</button>
+              <button onClick={() => scrollToSection('cta')} className="block w-full text-left py-2" style={{ color: '#0077B6' }}>신청</button>
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section id="hero" className="pt-32 pb-20 px-4">
+        <div className="max-w-5xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-relaxed" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+            "키오스크 앞에서 망설이는 1분,<br />이제 자신감으로 바뀝니다."
+          </h1>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{ color: '#333', lineHeight: '1.8' }}>
+            6070 부모님의 디지털 일상을 위한<br />1:1 현장 맞춤 코칭
+          </h2>
+          <p className="text-xl md:text-2xl mb-12 px-4" style={{ color: '#555', lineHeight: '2' }}>
+            복잡한 디지털 기기 사용, 더 이상 불편하거나 외롭지 않도록!<br />
+            노년층의 눈높이에 맞춘 따뜻하고 확실한 현장 코칭을 시작하세요.
+          </p>
+          <button
+            onClick={() => scrollToSection('cta')}
+            className="text-xl md:text-2xl px-10 py-5 rounded-full font-bold text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+            style={{ backgroundColor: '#FFC300' }}
+          >
+            무료 상담 신청하기 →
+          </button>
+        </div>
+      </section>
+
+      {/* Problem Section */}
+      <section id="problem" className="py-20 px-4" style={{ backgroundColor: '#f8f9fa' }}>
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+            "어디를 가도 '기계'부터 만나는 세상,<br />혹시 우리 부모님만 뒤처지고 있나요?"
+          </h2>
+          
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            <div className="bg-white p-8 rounded-2xl shadow-md">
+              <div className="text-5xl mb-6">🍽️</div>
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>식당에서 주문할 때</h3>
+              <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                복잡한 키오스크 앞에서 뭘 눌러야 할지 몰라 뒤돌아 나오신 적은 없으신가요?
+              </p>
+            </div>
+            
+            <div className="bg-white p-8 rounded-2xl shadow-md">
+              <div className="text-5xl mb-6">🏥</div>
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>마트나 병원에서</h3>
+              <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                'QR코드'나 '모바일 앱'을 요구할 때마다 당황하여 도움을 요청해야 했던 순간
+              </p>
+            </div>
+            
+            <div className="bg-white p-8 rounded-2xl shadow-md">
+              <div className="text-5xl mb-6">📱</div>
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>일상의 작은 즐거움</h3>
+              <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                손주들과 영상 통화는 하고 싶지만, 스마트폰의 기능을 켜는 것조차 어렵게 느껴집니다
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white p-10 rounded-2xl shadow-lg border-l-8" style={{ borderColor: '#0077B6' }}>
+            <p className="text-2xl md:text-3xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.8' }}>
+              😢 가장 큰 불편함
+            </p>
+            <p className="text-xl md:text-2xl italic" style={{ color: '#555', lineHeight: '1.8' }}>
+              "어딜 가도 키오스크나 QR코드를 써야 해서 일상생활에서 큰 문제점을 경험합니다. 자식들에게 물어보기엔 미안하고, 학원은 너무 딱딱하고 어렵습니다."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Solution Section */}
+      <section id="solution" className="py-20 px-4">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-6" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+            실버 디지털 라이프 코치
+          </h2>
+          <p className="text-2xl md:text-3xl text-center mb-16" style={{ color: '#555', lineHeight: '1.8' }}>
+            가장 필요한 곳, 가장 편안한 방식으로 해결합니다
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center p-8">
+              <div className="inline-block p-6 rounded-full mb-6" style={{ backgroundColor: '#e6f4fa' }}>
+                <MapPin size={48} style={{ color: '#0077B6' }} />
+              </div>
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>1:1 현장 맞춤 코칭</h3>
+              <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                복지관에서 배운 지식이 아니라, 당장 내 눈앞의 키오스크 사용법, 모바일 뱅킹 접속 등 '지금 필요한 것'만 집중적으로 알려드립니다
+              </p>
+            </div>
+
+            <div className="text-center p-8">
+              <div className="inline-block p-6 rounded-full mb-6" style={{ backgroundColor: '#e6f4fa' }}>
+                <Heart size={48} style={{ color: '#0077B6' }} />
+              </div>
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>높은 공감 능력</h3>
+              <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                따뜻하게 다가가는 성격과 높은 공감 능력을 바탕으로, 쉬운 용어와 눈높이에 맞춘 속도로 불안함 없이 학습할 수 있습니다
+              </p>
+            </div>
+
+            <div className="text-center p-8">
+              <div className="inline-block p-6 rounded-full mb-6" style={{ backgroundColor: '#e6f4fa' }}>
+                <Users size={48} style={{ color: '#0077B6' }} />
+              </div>
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>'함께'의 가치</h3>
+              <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                단순히 사용법을 가르치는 것이 아닌, 디지털 기기를 통해 얻을 수 있는 일상의 편리함과 자신감을 선물하여 삶의 질을 높여드립니다
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section id="benefits" className="py-20 px-4" style={{ backgroundColor: '#f8f9fa' }}>
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-16" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+            "단 3회 만에 달라지는<br />부모님의 디지털 라이프"
+          </h2>
+
+          <div className="space-y-8">
+            <div className="bg-white p-10 rounded-2xl shadow-md flex items-start">
+              <div className="flex-shrink-0 mr-6">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold text-white" style={{ backgroundColor: '#0077B6' }}>1</div>
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+                  🔍 맞춤형 진단 및 커리큘럼
+                </h3>
+                <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                  사전 설문을 통해 가장 시급하게 필요한 항목(키오스크, 모바일 앱, SNS, 금융 앱 등)을 파악하여 100% 맞춤형 코칭을 설계합니다
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white p-10 rounded-2xl shadow-md flex items-start">
+              <div className="flex-shrink-0 mr-6">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold text-white" style={{ backgroundColor: '#0077B6' }}>2</div>
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+                  🏡 고객 맞춤형 공간 코칭
+                </h3>
+                <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                  고객님이 가장 편안하고, 가장 자주 이용하시는 현장으로 코치가 직접 방문하여 교육 효과를 극대화합니다
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white p-10 rounded-2xl shadow-md flex items-start">
+              <div className="flex-shrink-0 mr-6">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center text-3xl font-bold text-white" style={{ backgroundColor: '#0077B6' }}>3</div>
+              </div>
+              <div>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+                  💪 반복 학습 및 자신감 키우기
+                </h3>
+                <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                  디지털 기기 사용의 '두려움'을 없애는 것에 초점을 맞춥니다. 천천히, 그리고 반복적으로 학습하여 스스로 할 수 있다는 자신감을 회복시켜 드립니다
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Section */}
+      <section id="trust" className="py-20 px-4">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-12" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+            지역 사회와 함께 만들어가는<br />신뢰의 코칭
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-white p-10 rounded-2xl shadow-md">
+              <Award size={48} style={{ color: '#0077B6' }} className="mb-4" />
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>MVP 검증 계획</h3>
+              <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+                현재 지역 경로당 노인을 대상으로 무료 교육을 진행하여 실제 사용자의 니즈와 수용도를 확인하고 있습니다
+              </p>
+            </div>
+
+            <div className="bg-white p-10 rounded-2xl shadow-md">
+              <CheckCircle size={48} style={{ color: '#0077B6' }} className="mb-4" />
+              <h3 className="text-2xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.6' }}>주요 협력 기관</h3>
+              <ul className="text-xl space-y-3" style={{ color: '#555', lineHeight: '1.8' }}>
+                <li>🤝 지역 내 노인복지관</li>
+                <li>🤝 구청 디지털 접근성 개선 프로젝트</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-white p-10 rounded-2xl shadow-lg border-l-8" style={{ borderColor: '#FFC300' }}>
+            <p className="text-2xl md:text-3xl font-bold mb-4" style={{ color: '#0077B6', lineHeight: '1.8' }}>
+              코치 김세현의 약속
+            </p>
+            <p className="text-xl md:text-2xl" style={{ color: '#555', lineHeight: '1.8' }}>
+              "다양한 학생들의 눈높이에 맞추어 가르쳐 온 저의 핵심 전문성을 바탕으로, 고객 한 분 한 분에게 따뜻함과 확실한 성장을 약속드립니다."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 px-4" style={{ backgroundColor: '#f8f9fa' }}>
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-6" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+            초기 베타 테스터 특별 혜택!
+          </h2>
+          <p className="text-2xl text-center mb-12" style={{ color: '#555', lineHeight: '1.8' }}>
+            선착순 30명 한정
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white p-10 rounded-2xl shadow-md border-2" style={{ borderColor: '#0077B6' }}>
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+                기본 코스
+              </h3>
+              <div className="text-center mb-6">
+                <div className="text-xl line-through mb-2" style={{ color: '#999' }}>정가: 50,000원</div>
+                <div className="text-4xl md:text-5xl font-bold" style={{ color: '#0077B6' }}>39,000원</div>
+                <div className="text-xl mt-2" style={{ color: '#555' }}>1회 / 60분</div>
+              </div>
+              <div className="inline-block px-4 py-2 rounded-full text-lg font-bold text-white" style={{ backgroundColor: '#FFC300' }}>
+                약 22% 할인
+              </div>
+            </div>
+
+            <div className="bg-white p-10 rounded-2xl shadow-lg border-4 relative" style={{ borderColor: '#FFC300' }}>
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-6 py-2 rounded-full text-xl font-bold text-white" style={{ backgroundColor: '#FFC300' }}>
+                추천!
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 text-center" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+                집중 코스 (3회 패키지)
+              </h3>
+              <div className="text-center mb-6">
+                <div className="text-xl line-through mb-2" style={{ color: '#999' }}>정가: 150,000원</div>
+                <div className="text-4xl md:text-5xl font-bold" style={{ color: '#0077B6' }}>99,000원</div>
+                <div className="text-xl mt-2" style={{ color: '#555' }}>3회 / 60분</div>
+              </div>
+              <div className="inline-block px-4 py-2 rounded-full text-lg font-bold text-white" style={{ backgroundColor: '#FFC300' }}>
+                약 34% 할인
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-xl mb-3" style={{ color: '#555', lineHeight: '1.8' }}>
+              ✓ 베타 특가는 3회 패키지 신청 시, 가장 큰 할인율이 적용됩니다
+            </p>
+            <p className="text-xl" style={{ color: '#555', lineHeight: '1.8' }}>
+              ✓ 코칭 시간은 고객의 집중도를 고려하여 60분 단위로 운영됩니다
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section id="cta" className="py-20 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-5xl font-bold mb-8" style={{ color: '#0077B6', lineHeight: '1.6' }}>
+            더 이상 망설이지 마세요.<br />
+            부모님의 일상에 자신감을 선물하세요.
+          </h2>
+          <p className="text-xl md:text-2xl mb-12" style={{ color: '#555', lineHeight: '1.8' }}>
+            디지털 격차는 세대 간의 단절로 이어질 수 있습니다.<br />
+            <strong>실버 디지털 라이프 코치</strong>가 그 간극을 따뜻하게 메워드립니다.<br />
+            지금 바로 신청하고, 부모님의 환한 미소를 되찾아 주세요.
+          </p>
+          
+          <button
+            className="text-2xl md:text-3xl px-12 py-6 rounded-full font-bold text-white shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 flex items-center justify-center mx-auto"
+            style={{ backgroundColor: '#FFC300' }}
+          >
+            📞 초기 베타 테스터 신청하고 특별 할인받기
+            <ArrowRight size={32} className="ml-3" />
+          </button>
+
+          <p className="text-xl mt-8" style={{ color: '#555', lineHeight: '1.8' }}>
+            무료 상담 문의 환영합니다
+          </p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 px-4 border-t-2" style={{ borderColor: '#e0e0e0' }}>
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-xl mb-3" style={{ color: '#0077B6', lineHeight: '1.8' }}>
+            <strong>실버 디지털 라이프 코치</strong>
+          </p>
+          <p className="text-lg" style={{ color: '#777', lineHeight: '1.8' }}>
+            따뜻함과 신뢰로 만드는 디지털 세상
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+}
